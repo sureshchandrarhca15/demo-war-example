@@ -97,7 +97,7 @@ pipeline {
         script {
           openshift.withCluster() {
             openshift.withProject(env.DEV_NAMESPACE) {
-              openshift.newBuild("--name=${env.APP_NAME}", "--image-stream=registry.redhat.io/jboss-webserver-3/webserver30-tomcat8-openshift:1.1", "--binary=true")
+              openshift.newBuild("--name=${env.APP_NAME}", "--image-stream=jboss-webserver30-tomcat8-openshift:1.1", "--binary=true")
             }
           }
         }
