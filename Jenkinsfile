@@ -175,7 +175,7 @@ pipeline {
       script {
         openshift.withCluster() {
           openshift.withProject(env.DEV_NAMESPACE) {
-            openshift.newApp("${env.NAME}:dev", "--as-deployment-config=true", "--name=${env.NAME}").narrow('svc').expose()
+            openshift.newApp("${env.NAME}:dev", "--name=${env.NAME}").narrow('svc').expose()
             def dc = openshift.selector("dc", "${env.NAME}")
             while (dc.object().spec.replicas != dc.object().status.availableReplicas) {
               sleep 10
