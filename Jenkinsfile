@@ -148,7 +148,7 @@ pipeline {
       }
     }
     }
-
+*/
     stage('Tag Image to Dev') {
       steps {
         script {
@@ -175,8 +175,8 @@ pipeline {
       script {
         openshift.withCluster() {
           openshift.withProject(env.DEV_NAMESPACE) {
-            openshift.newApp("--docker-image=${QUAY_REGISTRY_URL}/${QUAY_ORG_NAME}/${QUAY_REPO_NAME}:build-${QUAY_IMAGE_TAG}", "--insecure-registry=true", "--as-deployment-config=true", "--name=${env.APP_NAME}").narrow('svc').expose()
-            def dc = openshift.selector("dc", "${env.APP_NAME}")
+            openshift.newApp("${env.NAME}:dev", "--as-deployment-config=true", "--name=${env.NAME}").narrow('svc').expose()
+            def dc = openshift.selector("dc", "${env.NAME}")
             while (dc.object().spec.replicas != dc.object().status.availableReplicas) {
               sleep 10
             }
@@ -185,7 +185,6 @@ pipeline {
       }
     }
   }
-*/
 
 }
 }
