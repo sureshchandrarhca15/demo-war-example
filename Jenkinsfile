@@ -108,7 +108,7 @@ pipeline {
       steps {
         script {
           openshift.withCluster() {
-            openshift.withProject(env.IMAGE_BAKERY_NAMESPACE) {
+            openshift.withProject(env.DEV_NAMESPACE) {
               openshift.selector("bc", "${env.APP_NAME}").startBuild("--from-file=target/demo-0.0.1-SNAPSHOT.war","--follow","--wait=true")
             }
           }
