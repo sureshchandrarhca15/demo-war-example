@@ -20,10 +20,8 @@ pipeline {
       script {
       try {
       
-      sh """ 
-        cd TestShailendra/
-	mvn clean install -Dmaven.test.skip=true
-      """
+      sh "mvn clean install -Dmaven.test.skip=true"
+      
         }
       catch (Exception e) {
       println "Failed to Maven Build - ${currentBuild.fullDisplayName}"
