@@ -83,12 +83,11 @@ pipeline {
      }
     }
   }
-/*
   stage('Create Image Builder') {
       when {
         expression {
           openshift.withCluster() {
-            openshift.withProject(env.IMAGE_BAKERY_NAMESPACE) {
+            openshift.withProject(env.DEV_NAMESPACE) {
             return !openshift.selector("bc", "${env.APP_NAME}").exists();
             }
           }
@@ -97,8 +96,8 @@ pipeline {
       steps {
         script {
           openshift.withCluster() {
-            openshift.withProject(env.IMAGE_BAKERY_NAMESPACE) {
-              openshift.newBuild("--name=${env.APP_NAME}", "--image-stream=redhat-openjdk18-openshift:1.1", "--binary=true")
+            openshift.withProject(env.DEV_NAMESPACE) {
+              openshift.newBuild("--name=${env.APP_NAME}", "--image-stream=registry.redhat.io/jboss-webserver-3/webserver30-tomcat8-openshift:1.1", "--binary=true")
             }
           }
         }
@@ -110,12 +109,14 @@ pipeline {
         script {
           openshift.withCluster() {
             openshift.withProject(env.IMAGE_BAKERY_NAMESPACE) {
-              openshift.selector("bc", "${env.APP_NAME}").startBuild("--from-file=target/Credit-Card-Processor-0.0.1-SNAPSHOT.jar","--follow","--wait=true")
+              openshift.selector("bc", "${env.APP_NAME}").startBuild("--from-file=target/demo-0.0.1-SNAPSHOT.war","--follow","--wait=true")
             }
           }
         }
       }
     }
+/*
+
     stage('Sign and Push Image to Quay') {
     agent { label 'image_sign' }
       environment
